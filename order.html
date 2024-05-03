@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Package Delivery Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://png.pngtree.com/thumb_back/fh260/background/20220204/pngtree-big-isolated-vehicle-vector-colorful-icons-flat-illustrations-of-delivery-by-image_984812.jpg'); /* Add background image URL here */
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 100px auto;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.8); /* Add a semi-transparent white background */
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="tel"],
+        .form-group select,
+        .form-group input[type="number"] {
+            width: calc(100% - 12px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group input[type="tel"]:focus,
+        .form-group select:focus,
+        .form-group input[type="number"]:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        .form-group input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .form-group input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        /* Make the delivery charges and total price fields read-only */
+        #delivery_charges, #total_price {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2 style="text-align: center;">Package Delivery Form</h2>
+        <form id="deliveryForm">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="registration_no">Registration No:</label>
+                <input type="text" id="registration_no" name="registration_no" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone_no">Phone No:</label>
+                <input type="tel" id="phone_no" name="phone_no" required>
+            </div>
+
+            <div class="form-group">
+                <label for="delivery_partner">Delivery Partner:</label>
+                <select id="delivery_partner" name="delivery_partner" required onchange="showOther()">
+                    <option value="">Select Partner</option>
+                    <option value="Flipkart">Flipkart</option>
+                    <option value="Amazon">Amazon</option>
+                    <option value="Myntra">Myntra</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="other_partner" style="display: none;">
+                <label for="other_partner">Other Partner:</label>
+                <input type="text" id="other_partner" name="other_partner">
+            </div>
+
+            <div class="form-group">
+                <label for="arrival_date">Arrival Date:</label>
+                <input type="datetime-local" id="arrival_date" name="arrival_date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="destination">Destination:</label>
+                <input type="text" id="destination" name="destination" required>
+            </div>
+
+            <div class="form-group">
+                <label for="package_price">Package Price:</label>
+                <input type="number" id="package_price" name="package_price" min="0" step="0.01" required>
+            </div>
+
+            <div class="form-group">
+                <label for="delivery_charges">Delivery Charges:</label>
+                <input type="text" id="delivery_charges" name="delivery_charges" value="10" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="total_price">Total Price:</label>
+                <input type="text" id="total_price" name="total_price" readonly>
+            </div>
+
+            <div class="form-group">
+                <a href="qrcode.html"> <button type="button" class="btn btn-outline-primary me-2" >Submit</button></a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function showOther() {
+            var delivery_partner = document.getElementById('delivery_partner').value;
+            var other_partner_field = document.getElementById('other_partner');
+
+            if (delivery_partner === 'Other') {
+                other_partner_field.style.display = 'block';
+            } else {
+                other_partner_field.style.display = 'none';
+            }
+        }
+
+        // Calculate total price when package price changes
+        document.getElementById('package_price').addEventListener('input', function() {
+            var package_price = parseFloat(this.value);
+            var delivery_charges = parseFloat(document.getElementById('delivery_charges').value);
+            var total_price = package_price + delivery_charges;
+            document.getElementById('total_price').value = total_price.toFixed(2);
+        });
+    </script>
+
+</body>
+</html>
